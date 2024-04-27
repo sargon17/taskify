@@ -27,7 +27,7 @@ type TaskItemProps = {
 };
 
 export default function TaskItem(props: TaskItemProps) {
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   return (
     <Box>
@@ -102,7 +102,13 @@ export default function TaskItem(props: TaskItemProps) {
                   {props.task.title}
                 </Typography>
                 <Typography variant="body1">{props.task.description}</Typography>
-                <Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    marginTop: 1,
+                  }}
+                >
                   {props.task.due_date && (
                     <Chip
                       label={"Due: " + dayjs(props.task.due_date).format("DD MMM YYYY")}
@@ -130,7 +136,7 @@ export default function TaskItem(props: TaskItemProps) {
             <IconButton
               onClick={() => {
                 // props.onTaskDelete();
-                setIsMoreOpen(!isMoreOpen);
+                setIsMoreMenuOpen(!isMoreMenuOpen);
               }}
               className="more-task-button"
               id={"more-task-button" + props.task.id}
@@ -148,13 +154,6 @@ export default function TaskItem(props: TaskItemProps) {
                 },
               }}
             >
-              {/* <DeleteIcon
-                className="more-task-button-icon"
-                sx={{
-                  opacity: 0.5,
-                  transition: "opacity 0.3s ease-in-out, color 0.3s ease-in-out",
-                }}
-              /> */}
               <MoreHoriz
                 className="more-task-button-icon"
                 sx={{
@@ -165,14 +164,14 @@ export default function TaskItem(props: TaskItemProps) {
             </IconButton>
           </Tooltip>
           <Popover
-            open={isMoreOpen}
+            open={isMoreMenuOpen}
             anchorEl={document.querySelector("#more-task-button" + props.task.id)}
             anchorOrigin={{
               vertical: "bottom",
               horizontal: "right",
             }}
             onClose={() => {
-              setIsMoreOpen(false);
+              setIsMoreMenuOpen(false);
             }}
             sx={{
               "& .MuiPaper-root": {
@@ -188,7 +187,7 @@ export default function TaskItem(props: TaskItemProps) {
               <Button
                 onClick={() => {
                   props.onTaskDelete();
-                  setIsMoreOpen(false);
+                  setIsMoreMenuOpen(false);
                 }}
                 variant="text"
                 startIcon={<DeleteIcon />}
