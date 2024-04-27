@@ -99,6 +99,17 @@ export default function Tasks() {
     setTasks(data);
   };
 
+  const handleDeleteAllDoneTasks = async () => {
+    const { error } = await supabase.from("tasks").delete().eq("is_done", true);
+
+    if (error) throw new Error(error.message);
+
+    // removing all done tasks from the tasks array optimistically to avoid a network request
+    const updatedTasks = tasks?.filter((task) => !task.is_done);
+
+    setTasks(updatedTasks || []);
+  };
+
   useEffect(() => {
     getAllTasks();
   }, []);
@@ -132,13 +143,31 @@ export default function Tasks() {
                 Here are your tasks
               </Typography>
             </Box>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleDialoqueState()}
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+              }}
             >
-              Add Task
-            </Button>
+              {tasks && tasks.length > 0 && tasks.some((task) => task.is_done) && (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDeleteAllDoneTasks()}
+                >
+                  {" "}
+                  Delete All Done
+                </Button>
+              )}
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleDialoqueState()}
+              >
+                Add Task
+              </Button>
+            </Box>
           </Box>
         </SurfaceHeader>
         <TasksList>
