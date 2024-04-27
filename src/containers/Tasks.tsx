@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 import { useEffect, useState } from "react";
 
@@ -22,6 +24,7 @@ export default function Tasks() {
   const [task, setTask] = useState<TaskInput>({
     title: "",
     description: "",
+    due_date: "",
   });
 
   const [dialogueOpen, setDialogueOpen] = useState(false);
@@ -32,7 +35,7 @@ export default function Tasks() {
   const handleNewTaskSubmit = async () => {
     const { data, error } = await supabase
       .from("tasks")
-      .insert([{ title: task.title, description: task.description }])
+      .insert([{ ...task }])
       .select();
 
     if (error) throw new Error(error.message);
@@ -41,6 +44,7 @@ export default function Tasks() {
     setTask({
       title: "",
       description: "",
+      due_date: "",
     });
 
     handleDialoqueState();
@@ -73,7 +77,7 @@ export default function Tasks() {
   };
 
   const getAllTasks = async () => {
-    const { data, error } = await supabase.from("tasks").select("*").order("is_done");
+    const { data, error } = await supabase.from("tasks").select("*").order("is_done").order("due_date");
 
     if (error) throw new Error(error.message);
 
@@ -163,6 +167,12 @@ export default function Tasks() {
           rows={4}
           onChange={(e) => setTask({ ...task, description: e.target.value })}
           value={task.description || ""}
+        />
+        <DatePicker
+          value={dayjs(task.due_date ? task.due_date : new Date())}
+          onChange={(date) => setTask({ ...task, due_date: date?.toISOString() || "" })}
+          label="Due Date"
+          format="dddd, MMMM D, YYYY"
         />
       </NewTaskDialog>
     </>

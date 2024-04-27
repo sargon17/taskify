@@ -7,12 +7,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { MoreHoriz } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 
+import Chip from "@mui/material/Chip";
+
 import Popover from "@mui/material/Popover";
 
 import Checkbox from "@mui/material/Checkbox";
 import { Tooltip } from "@mui/material";
 
 import { useState } from "react";
+
+import dayjs from "dayjs";
 
 import { Task } from "../../types/Task";
 
@@ -98,6 +102,21 @@ export default function TaskItem(props: TaskItemProps) {
                   {props.task.title}
                 </Typography>
                 <Typography variant="body1">{props.task.description}</Typography>
+                <Box>
+                  {props.task.due_date && (
+                    <Chip
+                      label={"Due: " + dayjs(props.task.due_date).format("DD MMM YYYY")}
+                      variant="outlined"
+                      sx={{
+                        bgcolor: "transparent",
+                        borderColor: "primary.main",
+                        color: "primary.main",
+                        fontSize: "0.75rem",
+                        fontWeight: "700",
+                      }}
+                    />
+                  )}
+                </Box>
               </Box>
             </Box>
           </Box>

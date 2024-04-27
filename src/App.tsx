@@ -6,6 +6,9 @@ import Tasks from "./containers/Tasks";
 import { Grid } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -36,26 +39,28 @@ const theme = createTheme({
 function App() {
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Dashboard>
-          <Grid
-            item
-            xs={0}
-            sm={3}
-            md={2}
-          >
-            <Sidebar />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={9}
-            md={10}
-          >
-            <Tasks />
-          </Grid>
-        </Dashboard>
-      </ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <ThemeProvider theme={theme}>
+          <Dashboard>
+            <Grid
+              item
+              xs={0}
+              sm={3}
+              md={2}
+            >
+              <Sidebar />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={9}
+              md={10}
+            >
+              <Tasks />
+            </Grid>
+          </Dashboard>
+        </ThemeProvider>
+      </LocalizationProvider>
     </>
   );
 }
