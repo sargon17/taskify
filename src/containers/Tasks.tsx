@@ -47,6 +47,15 @@ export default function Tasks() {
     setDialogueOpen(!dialogueOpen);
   };
 
+  // task handlers
+  const getAllTasks = async () => {
+    const { data, error } = await supabase.from("tasks").select("*").order("is_done").order("due_date");
+
+    if (error) throw new Error(error.message);
+
+    setTasks(data);
+  };
+
   const handleNewTaskSubmit = async () => {
     const { data, error } = await supabase
       .from("tasks")
@@ -91,14 +100,6 @@ export default function Tasks() {
     const updatedTasks = tasks?.filter((task) => task.id !== id);
 
     setTasks(updatedTasks || []);
-  };
-
-  const getAllTasks = async () => {
-    const { data, error } = await supabase.from("tasks").select("*").order("is_done").order("due_date");
-
-    if (error) throw new Error(error.message);
-
-    setTasks(data);
   };
 
   const handleDeleteAllDoneTasks = async () => {
