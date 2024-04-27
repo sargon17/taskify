@@ -108,10 +108,13 @@ export default function TaskItem(props: TaskItemProps) {
                       label={"Due: " + dayjs(props.task.due_date).format("DD MMM YYYY")}
                       variant="outlined"
                       sx={{
-                        bgcolor: "transparent",
-                        borderColor: "primary.main",
-                        color: "primary.main",
-                        fontSize: "0.75rem",
+                        bgcolor: dayjs().isAfter(dayjs(props.task.due_date)) ? "error.light" : "transparent",
+                        borderColor: dayjs().isAfter(dayjs(props.task.due_date))
+                          ? "error.main"
+                          : "primary.main",
+                        color: dayjs().isAfter(dayjs(props.task.due_date))
+                          ? "error.contrastText"
+                          : "primary.main",
                         fontWeight: "700",
                       }}
                     />

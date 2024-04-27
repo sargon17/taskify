@@ -16,7 +16,9 @@ import { useEffect, useState } from "react";
 
 import supabase from "../config/supabaseClient";
 
-import { Task, TaskInput } from "../types/Task";
+import { Task } from "../types/Task";
+
+type TaskInput = Pick<Task, "title" | "description" | "due_date">;
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<Task[] | null>(null);
@@ -24,7 +26,7 @@ export default function Tasks() {
   const [task, setTask] = useState<TaskInput>({
     title: "",
     description: "",
-    due_date: "",
+    due_date: new Date().toISOString(),
   });
 
   const [dialogueOpen, setDialogueOpen] = useState(false);
@@ -40,14 +42,27 @@ export default function Tasks() {
 
     if (error) throw new Error(error.message);
 
-    setTasks([...(tasks || []), ...data]);
+    // adding the new task to the tasks array optimistically to avoid a network request
+    setTasks(sortTasksOptimistically([...(tasks || []), data[0]]));
+
     setTask({
       title: "",
       description: "",
-      due_date: "",
+      due_date: new Date().toISOString(),
     });
 
     handleDialoqueState();
+  };
+
+  const sortTasksOptimistically = (tasks: Task[]) => {
+    console.log(tasks);
+
+    return tasks.sort((a, b) => {
+      if (a.is_done === b.is_done) {
+        return a.due_date > b.due_date ? 1 : -1;
+      }
+      return a.is_done ? 1 : -1;
+    });
   };
 
   const handleTaskCompletion = async ({ id, is_done }: Pick<Task, "id" | "is_done">) => {
