@@ -1,7 +1,7 @@
-import React from "react";
-
+// mui
 import { Grid } from "@mui/material";
 
+// local types
 type DashboardProps = {
   children?: React.ReactNode | React.ReactNode[];
 };

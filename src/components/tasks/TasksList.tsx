@@ -1,7 +1,11 @@
+// mui
 import Box from "@mui/material/Box";
+
+// local types
 type TaskListProps = {
   children?: React.ReactNode | React.ReactNode[];
 };
+
 export default function TasksList(props: TaskListProps) {
   return (
     <Box

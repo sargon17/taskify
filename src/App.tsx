@@ -1,13 +1,17 @@
+// Providers
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+
+// UI components
 import Dashboard from "./components/Dashboard";
 import Sidebar from "./components/Sidebar";
 
-import Tasks from "./containers/Tasks";
-
+// mui
 import { Grid } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+// containers
+import Tasks from "./containers/Tasks";
 
 const theme = createTheme({
   palette: {

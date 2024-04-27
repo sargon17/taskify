@@ -1,6 +1,7 @@
-import React from "react";
+//mui
 import Box from "@mui/material/Box";
 
+// local types
 type SurfaceProps = {
   children?: React.ReactNode | React.ReactNode[];
 };
@@ -8,6 +9,7 @@ type SurfaceProps = {
 type SurfaceHeaderProps = {
   children?: React.ReactNode | React.ReactNode[];
 };
+
 function Surface(props: SurfaceProps) {
   return (
     <Box sx={{ width: "100%", height: "100vh", display: "flex", flexDirection: "column", p: 1 }}>

@@ -1,28 +1,39 @@
-import TasksList from "../components/tasks/TasksList";
-import TaskItem from "../components/tasks/TaskItem";
-import NewTaskDialog from "../components/tasks/NewTaskDialog";
+//react
+import { useEffect, useState } from "react";
 
-import Loading from "../components/ui/Loading";
-import { Surface, SurfaceHeader } from "../components/ui/Surface";
+//db
+import supabase from "../config/supabaseClient";
 
+//mui
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
 
-import { useEffect, useState } from "react";
+// UI components
+import Loading from "../components/ui/Loading";
+import { Surface, SurfaceHeader } from "../components/ui/Surface";
 
-import supabase from "../config/supabaseClient";
+// Specific UI components
+import TasksList from "../components/tasks/TasksList";
+import TaskItem from "../components/tasks/TaskItem";
+import NewTaskDialog from "../components/tasks/NewTaskDialog";
 
+// types
 import { Task } from "../types/Task";
 
+// utils & helpers
+import { sortTasksOptimistically } from "../utils/sortTasks";
+import dayjs from "dayjs";
+
+// local types
 type TaskInput = Pick<Task, "title" | "description" | "due_date">;
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<Task[] | null>(null);
 
+  // task input state
   const [task, setTask] = useState<TaskInput>({
     title: "",
     description: "",
@@ -30,6 +41,8 @@ export default function Tasks() {
   });
 
   const [dialogueOpen, setDialogueOpen] = useState(false);
+
+  // dialogue
   const handleDialoqueState = () => {
     setDialogueOpen(!dialogueOpen);
   };
@@ -52,17 +65,6 @@ export default function Tasks() {
     });
 
     handleDialoqueState();
-  };
-
-  const sortTasksOptimistically = (tasks: Task[]) => {
-    console.log(tasks);
-
-    return tasks.sort((a, b) => {
-      if (a.is_done === b.is_done) {
-        return a.due_date > b.due_date ? 1 : -1;
-      }
-      return a.is_done ? 1 : -1;
-    });
   };
 
   const handleTaskCompletion = async ({ id, is_done }: Pick<Task, "id" | "is_done">) => {

@@ -1,24 +1,25 @@
+// React
+import { useState } from "react";
+
+//mui
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { MoreHoriz } from "@mui/icons-material";
-import Button from "@mui/material/Button";
-
+import MoreHoriz from "@mui/icons-material/MoreHoriz";
 import Chip from "@mui/material/Chip";
-
 import Popover from "@mui/material/Popover";
-
 import Checkbox from "@mui/material/Checkbox";
-import { Tooltip } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 
-import { useState } from "react";
-
-import dayjs from "dayjs";
-
+// types
 import { Task } from "../../types/Task";
+
+// utils & helpers
+import dayjs from "dayjs";
 
 type TaskItemProps = {
   task: Task;
